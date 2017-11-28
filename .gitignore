@@ -1,0 +1,14 @@
+INSTALL
+Makefile.in
+aclocal.m4
+config.h.in
+configure
+debian/Makefile.in
+depcomp
+install-sh
+missing
+src/Makefile.in
+
+autom4te.cache/
+compile
+config.h.in~
