@@ -1,0 +1,7 @@
+magicolor5430dl (1.8.1-1) unstable; urgency=low
+
+  * Initial Release.
+  * use force-reload instead of reload in postinst and postrm according to Policy 9.3.2
+  
+ -- sean zhan <http://printer.konicaminolta.net>  Mon,  22 Jan 2007 13:56:50 -0500
+

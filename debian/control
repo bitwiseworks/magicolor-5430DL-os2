@@ -1,0 +1,18 @@
+Source: magicolor5430dl
+Section: text
+Priority: optional
+Maintainer: sean zhan <sean.zhan@bil.konicaminolta.us>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.1
+
+Package: magicolor5430dl
+Architecture: any
+Depends: gs-esp (>=6.53) | cupsys-pstoraster
+Description: CUPS Driver for KONICA MINOLTA magicolor 5430 DL
+ This package contains KONICA MINOLTA CUPS LavaFlow stream
+ (PCL-like) filter rastertokm5430dl and the PPD file. The filter 
+ converts CUPS raster data to KONICA MINOLTA LavaFlow stream, 
+ it uses jbig for compression and littleCMS for colormatching. 
+ For latest version of this package and source code, please 
+ check Website  http://printer.konicaminolta.net/.
+
