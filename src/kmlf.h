@@ -13,6 +13,11 @@ typedef unsigned int DWORD;
 typedef unsigned long DWORD;
 #endif
 #endif
+#ifdef __OS2__
+typedef unsigned short WORD;
+typedef unsigned char BYTE;
+typedef unsigned long DWORD;
+#endif
 
 #pragma pack(1)
 typedef struct _HT_HEADER{

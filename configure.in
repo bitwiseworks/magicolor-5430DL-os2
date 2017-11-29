@@ -48,7 +48,14 @@ fi
 AC_MSG_NOTICE([libdir is $libdir])
 #filterdir=/usr/lib/cups/filter
 #AC_SUBST(filterdir)
+case "$UNAME" in
+        OS/2*)
+KM_PPDDIR=/@unixroot/usr/share/cups/model/KONICA_MINOLTA
+        ;;
+        *)
 KM_PPDDIR=/usr/share/cups/model/KONICA_MINOLTA
+        ;;
+esac
 AC_SUBST(KM_PPDDIR)
                                                                                 
 UNAME=`(uname) 2>/dev/null || echo unknown`
@@ -74,8 +81,8 @@ case "$UNAME" in
                 ;;
         *)
                 # All others
-                CUPS_SERVERBIN="$libdir/cups"
-                AC_DEFINE_UNQUOTED(CUPS_SERVERBIN, "$libdir/cups",filter path)
+                CUPS_SERVERBIN=`cups-config --serverbin`
+                AC_DEFINE_UNQUOTED(CUPS_SERVERBIN, "`cups-config --serverbin`",filter path)
 		KM_DATADIR="$datadir/KONICA_MINOLTA/mc5430DL"
 		AC_DEFINE_UNQUOTED(KM_DATADIR, "$datadir/KONICA_MINOLTA/mc5430DL",km data path)
 		;;
@@ -87,35 +94,19 @@ AC_SUBST(KM_DATADIR)
 # Checks for libraries.
 AC_CHECK_LIB(cups, ppdOpenFile)
 AC_CHECK_LIB([cupsimage], [cupsRasterReadHeader])
-AC_CHECK_LIB([jbig], [jbg_enc_init],
-if test -f "/usr/lib64/libjbig.a"; then
-	LIBJBIG="/usr/lib64/libjbig.a"
-elif test -f "/usr/lib/libjbig.a"; then
-	LIBJBIG="/usr/lib/libjbig.a"
-elif test -f "/usr/local/lib64/libjbig.a"; then
-	LIBJBIG="/usr/local/lib64/libjbig.a"
-else
-	LIBJBIG="/usr/local/lib/libjbig.a"
-fi,
-[AC_MSG_ERROR([Could not find libjbig.a])])
+LIBJBIG="-ljbig"
+AC_CHECK_LIB([jbig], [jbg_enc_init], [],
+[AC_MSG_ERROR([Could not find -ljbig])])
 AC_SUBST(LIBJBIG)
-AC_CHECK_LIB([lcms], [cmsCreateTransform],
-if test -f "/usr/lib64/liblcms.a"; then
-	LIBLCMS="/usr/lib64/liblcms.a"
-elif test -f "/usr/lib/liblcms.a"; then
-	LIBLCMS="/usr/lib/liblcms.a"
-elif test -f "/usr/local/lib64/liblcms.a"; then
-	LIBLCMS="/usr/local/lib64/liblcms.a"
-else
-	LIBLCMS="/usr/local/lib/liblcms.a"
-fi,
-[AC_MSG_ERROR([Could not find liblcms.a])])
+LIBLCMS="-llcms2"
+AC_CHECK_LIB([lcms2], [cmsCreateTransform], [],
+[AC_MSG_ERROR([Could not find -llcms2])])
 AC_SUBST(LIBLCMS)
 
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h limits.h stdlib.h string.h unistd.h])
-AC_CHECK_HEADERS([lcms.h icc34.h jbig.h])
+AC_CHECK_HEADERS([lcms2.h icc34.h jbig.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

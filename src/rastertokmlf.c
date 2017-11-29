@@ -62,7 +62,7 @@
 #include <signal.h>
 #include <sys/utsname.h>
 #include "jbig.h"
-#include "lcms.h"
+#include "lcms2.h"
 #include "kmlf.h"
 
 /*
@@ -649,8 +649,15 @@ int
 	for(plane=0;plane<NumPlanes; plane ++)
 	{
 		char filename[IPP_MAX_NAME];
+#ifdef __OS2__
+		const char *tmpdir;	/* Temporary directory */
+		if ((tmpdir = getenv("TEMP")) == NULL || (tmpdir = getenv("TMP")) == NULL)
+		  tmpdir = "/temp";
+		sprintf(filename, "%s/raster_page%d_%d.bmp", tmpdir, Page, plane);
+#else
 		sprintf(filename, "/tmp/raster_page%d_%d.bmp", Page, plane);
-		rasterplanefile[plane]=fopen(filename, "w");
+#endif
+		rasterplanefile[plane]=fopen(filename, "wb");
 		write_bmp_header(header, rasterplanefile[plane]);
 	}
 
@@ -1021,6 +1028,8 @@ void WritePJL_OSINFO_TIMESTAMP(void)
 	{
 		sprintf(subtype, "%s", "");
 	}
+	else
+		sprintf(subtype, "%s", "");
 
 	fprintf(stderr, "DEBUG: OS is %s, subtype is %s\n", uts.sysname, subtype);
 	myfprintf(fp, PJL_START_OSINFO, uts.sysname, subtype);
@@ -1087,7 +1096,7 @@ int                     /* O - Exit status */
 
    if (argc == 7)
    {
-      if ((fd = open(argv[6], O_RDONLY)) == -1)
+      if ((fd = open(argv[6], O_BINARY|O_RDONLY)) == -1)
       {
          perror("ERROR: Unable to open raster file - ");
          sleep(1);

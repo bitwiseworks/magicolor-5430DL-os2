@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cups/raster.h>
-#include "lcms.h"
+#include "lcms2.h"
 #include "kmlf.h"
 
 #if WORDS_BIGENDIAN
