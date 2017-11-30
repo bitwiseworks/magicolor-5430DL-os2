@@ -48,6 +48,8 @@ fi
 AC_MSG_NOTICE([libdir is $libdir])
 #filterdir=/usr/lib/cups/filter
 #AC_SUBST(filterdir)
+UNAME=`(uname) 2>/dev/null || echo unknown`
+
 case "$UNAME" in
         OS/2*)
 KM_PPDDIR=/@unixroot/usr/share/cups/model/KONICA_MINOLTA
@@ -58,8 +60,6 @@ KM_PPDDIR=/usr/share/cups/model/KONICA_MINOLTA
 esac
 AC_SUBST(KM_PPDDIR)
                                                                                 
-UNAME=`(uname) 2>/dev/null || echo unknown`
-
 case "$UNAME" in
         Darwin*)
                 # Darwin (MacOS X)
